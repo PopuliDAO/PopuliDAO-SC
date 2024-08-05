@@ -1,0 +1,52 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"WorldVerify.sol": "WorldVerify"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"WorldVerify.sol": {
+			"keccak256": "0xcae6154737138e10d90f99bc4e8fec0beb88203bd725cd8b0443a9608abfb21d",
+			"urls": [
+				"bzz-raw://d602bbc673f9d3a9ece2756fa568c2529253175def44a928c060849d1ce61bd3",
+				"dweb:/ipfs/Qma7mwfGSEjgSTGrvDCtzHyGoxjiM4tHu3o5QsVoEicpod"
+			]
+		},
+		"interfaces/IWorldID.sol": {
+			"keccak256": "0xcdf085f9dde0e090068213435aed0c1cf055ff29cc68d41085184c5085ec8079",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://52161cbb1bd089e0d95f176319d3ed18afdb0c0741a25ffb72600ea0b754a5ea",
+				"dweb:/ipfs/QmaAVrX7ihyeMT8pcKLrH3JU8bTdw736pkkckUdyFCuVuf"
+			]
+		}
+	},
+	"version": 1
+}
