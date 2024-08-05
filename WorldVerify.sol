@@ -9,7 +9,7 @@ contract WorldVerify {
 
     mapping(address => uint256) AddressToWorldID;
     mapping(uint256 => address) WorldIDToAddress;
-
+        
     
 
 }
