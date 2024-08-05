@@ -7,6 +7,11 @@ pragma solidity ^0.8.20;
 
 contract WorldVerify {
 
+
+struct DAOParticipant {
+		address WalletAddress;
+	}
+
     mapping(address => uint256) AddressToWorldID;
     mapping(uint256 => address) WorldIDToAddress;
     
@@ -33,6 +38,8 @@ contract WorldVerify {
     /// @dev Whether a nullifier hash has been used already. Used to guarantee an action is only performed once by a single person
 	mapping(uint256 => bool) internal nullifierHashes;  
     
+    event DAOParticipantRegistered(address indexed WalletAddress);
+
 
 /// @param signal An arbitrary input from the user, usually the user's wallet address (check README for further details)
 	/// @param root The root of the Merkle tree (returned by the JS widget).
@@ -47,7 +54,7 @@ contract WorldVerify {
 	) public {
 		// First, we make sure this person hasn't done this before
 		if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
-		require(!WorldIDToAddress[signal], "WorldID already registered to an existing address");
+		require(WorldIDToAddress[signal] == address(0), "WorldID already registered to an existing address");
 
 		// We now verify the provided proof is valid and the user is verified by World ID
 		worldId.verifyProof(
@@ -62,9 +69,9 @@ contract WorldVerify {
 		// We now record the user has done this, so they can't do it again (proof of uniqueness)
 		nullifierHashes[nullifierHash] = true;
 
-		patients[signal] = true;
+		WorldIDToAddress[signal] != 0;
 
-		emit PatientRegistered(signal);
+		emit DAOParticipant(signal);
 
 		// Finally, execute your logic here, for example issue a token, NFT, etc...
 		// Make sure to emit some kind of event afterwards!
