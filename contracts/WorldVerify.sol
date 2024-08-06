@@ -1,16 +1,18 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import { IWorldID } from "./Interfaces/IWorldID.sol";
+import {ByteHasher} from "../helpers/ByteHasher.sol";
+import {IWorldID} from "./Interfaces/IWorldID.sol";
 
 import "hardhat/console.sol";
 
 contract WorldVerify {
+    using ByteHasher for bytes;
 
     /// @dev The contract's external nullifier hash
     uint256 internal immutable externalNullifier;
 
-    /// @dev The World ID group ID (always 1)
+    /// @dev The World ID group ID (always 1) which represents ORB Identified users only
     uint256 internal immutable groupId = 1;
 
     /// @dev The World ID instance that will be used for verifying proofs
@@ -20,8 +22,13 @@ contract WorldVerify {
         address WalletAddress;
     }
 
-    mapping(address => uint256) AddressToWorldID;
-    mapping(uint256 => address) WorldIDToAddress;
+    // This can be a mapping solution for WorldID wallet address verification
+    // mapping(address => uint256) AddressToWorldID;
+    // mapping(uint256 => address) WorldIDToAddress;
+
+    // My second solution create a WalletWhitelist with a boolean value that he has already minted tokens or not
+    mapping(address => bool) WalletWhitelist;
+
     /// @dev Whether a nullifier hash has been used already. Used to guarantee an action is only performed once by a single person
     mapping(uint256 => bool) internal nullifierHashes;
 
@@ -36,8 +43,9 @@ contract WorldVerify {
     /// @notice Thrown when attempting to reuse a nullifier
     error InvalidNullifier();
 
-    constructor(address _worldId) {
+    constructor(address _worldId, uint256 _externalNullifier) {
         worldId = IWorldID(_worldId);
+        externalNullifier = _externalNullifier;
     }
 
     /// @dev Registers a new account
@@ -54,24 +62,17 @@ contract WorldVerify {
         // First, we make sure this person hasn't done this before
         if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
 
-        uint256 _worldId = AddressToWorldID[signal];
-        address _registerdAddress = WorldIDToAddress[_worldId];
-
-        console.log("_woldId", _worldId);
-        console.log("_registerdAddress", _registerdAddress);
-
-        require( _registerdAddress == address(0), "WorldID already registered");
-
         // We now verify the provided proof is valid and the user is verified by World ID
         // NOTE: encodePackad is wrong
-        // worldId.verifyProof(
-        //     root,
-        //     groupId,
-        //     abi.encodePacked(signal).hashToField(),
-        //     nullifierHash,
-        //     externalNullifier,
-        //     proof
-        // );
+
+        worldId.verifyProof(
+            root,
+            groupId,
+            abi.encodePacked(signal).hashToField(),
+            nullifierHash,
+            externalNullifier,
+            proof
+        );
 
         // We now record the user has done this, so they can't do it again (proof of uniqueness)
         nullifierHashes[nullifierHash] = true;
@@ -86,5 +87,4 @@ contract WorldVerify {
         // Finally, execute your logic here, for example issue a token, NFT, etc...
         // Make sure to emit some kind of event afterwards!
     }
-
 }
