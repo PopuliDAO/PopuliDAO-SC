@@ -77,14 +77,10 @@ contract WorldVerify {
         // We now record the user has done this, so they can't do it again (proof of uniqueness)
         nullifierHashes[nullifierHash] = true;
 
-        // TODO: is wrong and does nothign
-        //WorldIDToAddress[signal] != 0;
-        // TODO: Get the new address World Id
-        //WorldIDToAddress[NEW_ADDRESS_WORLD_ID] = signal;
-
-        emit DAOParticipantRegistered(signal);
-
+        WalletWhitelist[signal] = true;
         // Finally, execute your logic here, for example issue a token, NFT, etc...
         // Make sure to emit some kind of event afterwards!
+
+        // Optional: emit DAOParticipantRegistered(signal);
     }
 }
