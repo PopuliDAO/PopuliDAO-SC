@@ -10,6 +10,10 @@ contract MyToken is ERC20, ERC20Permit, ERC20Votes {
     constructor(
         uint256 initialSupply
     ) ERC20("Populi", "POP") ERC20Permit("Populi") {
+        require(
+            balanceOf(msg.sender) == 0,
+            "Account has already minted tokens"
+        );
         _mint(msg.sender, initialSupply);
     }
 
