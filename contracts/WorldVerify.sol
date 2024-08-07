@@ -85,6 +85,7 @@ contract WorldVerify {
         // Optional: emit DAOParticipantRegistered(signal);
     }
 
+    // Function to create Voting proposal
     function createProposal(address walletaddress) public {
         require(WalletWhitelist[walletaddress], "Wallet is not whitelisted");
         // Create a proposal
