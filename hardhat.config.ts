@@ -8,6 +8,8 @@ import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-verify";
 import "@nomiclabs/hardhat-solhint";
+import "hardhat-deploy";
+import "hardhat-deploy-ethers";
 
 require("dotenv").config();
 
@@ -18,6 +20,13 @@ const config: HardhatUserConfig = {
         version: "0.8.20",
       },
     ],
+    settings: {
+      optimizer: {
+        enabled: true,
+        // https://docs.soliditylang.org/en/latest/using-the-compiler.html#optimizer-options
+        runs: 200,
+      },
+    },
   },
   defaultNetwork: "hardhat",
   networks: {
@@ -31,10 +40,32 @@ const config: HardhatUserConfig = {
       accounts: { mnemonic: process.env.mnemonic },
     },
     optimism_sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.alchemyApiKey}`,
+      url: `https://opt-sepolia.g.alchemy.com/v2/${process.env.alchemyApiKey}`,
+      gasPrice: 500,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
     },
   },
+  etherscan: {
+    apiKey: `${process.env.ETHERSCAN_API_KEY}`,
+    customChains: [
+      {
+        network: "optimism_sepolia",
+        chainId: 11155420,
+        urls: {
+          apiURL: "https://api-sepolia-optimistic.etherscan.io/api",
+          browserURL: "https://sepolia-optimism.etherscan.io/"
+        }
+      }
+    ]
+  },
+  verify: {
+    etherscan: {
+      apiKey: `${process.env.ETHERSCAN_API_KEY}`,
+    },
+  },
+  sourcify: {
+    enabled: true
+  }
 };
 
 export default config;
