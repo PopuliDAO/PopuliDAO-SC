@@ -3,7 +3,7 @@ pragma solidity ^0.8.10;
 
 import { IWorldID } from "./Interfaces/IWorldID.sol";
 
-contract WorldMock is IWorldID {
+contract WorldIdMock is IWorldID {
 
     /// @notice Reversts if any argument is equal to 7
     function verifyProof(

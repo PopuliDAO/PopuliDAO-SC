@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 const { expect } = require("chai");
 
-let worldMock;
+let worldIdMock;
 let worldVerify;
 
 let zeroAddress = ethers.ZeroAddress;
@@ -18,10 +18,10 @@ describe("WorldVerify", async () => {
 
   beforeEach("Deployment", async () => {
     [owner, user1, user2, user3, user4] = await ethers.getSigners();
-    WorldMock = await ethers.getContractFactory("WorldMock");
-    worldMock = await WorldMock.deploy();
+    WorldIdMock = await ethers.getContractFactory("WorldIdMock");
+    worldIdMock = await WorldIdMock.deploy();
 
-    WorldIdAddress = worldMock.target;
+    WorldIdAddress = worldIdMock.target;
 
     WorldVerify = await ethers.getContractFactory("WorldVerify");
     worldVerify = await WorldVerify.deploy(WorldIdAddress, 234);
