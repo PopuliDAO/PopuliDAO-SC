@@ -40,8 +40,6 @@ async function main() {
   console.log(VERIFYING_COMMAND,` ${worldVerify.target} ${worldIdMock.target} ${WORLD_VERIFY_EXTERNAL_NULLVERIFIER}`);
   console.log("----------------------------------", '\n');
 
-
-
   if( ethers.provider._networkName == "optimism_sepolia" ) {
 
     console.log("Verifying My Token");

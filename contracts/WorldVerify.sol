@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import {ByteHasher} from "../helpers/ByteHasher.sol";
+import {ByteHasher} from "./libraries/ByteHasher.sol";
 import {IWorldID} from "./Interfaces/IWorldID.sol";
 
 import "hardhat/console.sol";
