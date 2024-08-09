@@ -43,9 +43,12 @@ contract WorldVerify {
     /// @notice Thrown when attempting to reuse a nullifier
     error InvalidNullifier();
 
+    /// @notice Constructs the WorldVerify contract.
+    /// @param _worldId contract address of the instance of WorldId
+    /// @param _externalNullifier refers to action + app_id, which is the same for each action
     constructor(address _worldId, uint256 _externalNullifier) {
         worldId = IWorldID(_worldId);
-        externalNullifier = _externalNullifier; // refers to action + app_id, which is the same for each action and thus saves gas by inserting in the constructor
+        externalNullifier = _externalNullifier;
     }
 
     /// @dev Registers a new account
@@ -62,8 +65,7 @@ contract WorldVerify {
         // First, we make sure this person hasn't done this before
         if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
 
-        // We now verify the provided proof is valid and the user is verified by World ID
-        // NOTE: encodePackad is wrong
+        require(WalletWhitelist[signal] == false, "WorldID already registered");
 
         worldId.verifyProof(
             root,

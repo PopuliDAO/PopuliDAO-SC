@@ -1,5 +1,5 @@
 {
-  "name": "hardhat-project",
+  "name": "PopuliDAO",
   "scripts": {
     "compile": "npx hardhat compile",
     "deploy": "npx hardhat deploy",
@@ -10,13 +10,14 @@
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomiclabs/hardhat-solhint": "^4.0.0",
+    "dotenv": "^16.4.5",
     "husky": "~8.0.3",
     "lint-staged": "~13.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.2",
-    "dotenv": "^16.4.5"
+    "@openzeppelin/contracts": "^5.0.2"
   }
 }
