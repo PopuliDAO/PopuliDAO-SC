@@ -14,7 +14,7 @@ contract WorldVerify {
     using ByteHasher for bytes;
 
     /// @dev The contract's external nullifier hash
-    uint256 internal immutable externalNullifier;
+    uint256 internal immutable externalNullifierHash;
 
     /// @dev The World ID group ID (always 1) which represents ORB Identified users only
     uint256 internal immutable groupId = 1;
@@ -43,12 +43,21 @@ contract WorldVerify {
     /// @notice Thrown when attempting to reuse a nullifier
     error InvalidNullifier();
 
-    /// @notice Constructs the WorldVerify contract.
-    /// @param _worldId contract address of the instance of WorldId
-    /// @param _externalNullifier refers to action + app_id, which is the same for each action
-    constructor(address _worldId, uint256 _externalNullifier) {
+    /// @param _worldId The address of the WorldIDRouter that will verify the proofs
+    /// @param _appId The World ID App ID (from Developer Portal)
+    /// @param _action The World ID Action (from Developer Portal)
+    constructor(
+        IWorldID _worldId,
+        string memory _appId,
+        string memory _action
+    ) {
         worldId = IWorldID(_worldId);
-        externalNullifier = _externalNullifier;
+        // externalNullifierHash = _externalNullifier;
+        externalNullifierHash = abi.encodePacked(
+            abi.encodePacked(_appId).hashToField(), _action
+        ).hashToField();
+
+
     }
 
     /// @dev Registers a new account
@@ -72,7 +81,7 @@ contract WorldVerify {
             groupId,
             abi.encodePacked(signal).hashToField(),
             nullifierHash,
-            externalNullifier,
+            externalNullifierHash,
             proof
         );
 

@@ -8,8 +8,10 @@ import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-verify";
 import "@nomiclabs/hardhat-solhint";
+import "hardhat-contract-sizer"
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
+import "hardhat-watcher";
 
 require("dotenv").config();
 
@@ -30,7 +32,12 @@ const config: HardhatUserConfig = {
   },
   defaultNetwork: "hardhat",
   networks: {
-    hardhat: {},
+    hardhat: {
+      allowUnlimitedContractSize: true,
+      forking: {
+        url: `https://opt-sepolia.g.alchemy.com/v2/${process.env.alchemyApiKey}`,
+      }
+    },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.alchemyApiKey}`,
       accounts: { mnemonic: process.env.mnemonic },
@@ -43,6 +50,24 @@ const config: HardhatUserConfig = {
       url: `https://opt-sepolia.g.alchemy.com/v2/${process.env.alchemyApiKey}`,
       gasPrice: 500,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY],
+    },
+  },
+  watcher: {
+    compilation: {
+      tasks: ["compile"],
+    },
+    // test: {
+    //   tasks: [{ command: "test", params: { testFiles: ["{path}"], bail: true } }],
+    //   files: ["./test/**/*"],
+    //   verbose: true,
+    // },
+    buildtest: {
+      tasks: ["compile", { command: "test", params: { parallel: false, bail: false } }],
+      files: ["./test/**/*", "./contracts/**/*"],
+      verbose: true,
+      clearOnStart: true, 
+      // start: string; // Run any desirable command each time before the task runs
+      runOnLaunch: true
     },
   },
   etherscan: {

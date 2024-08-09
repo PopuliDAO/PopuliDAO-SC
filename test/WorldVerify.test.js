@@ -24,7 +24,8 @@ describe("WorldVerify", async () => {
     WorldIdAddress = worldIdMock.target;
 
     WorldVerify = await ethers.getContractFactory("WorldVerify");
-    worldVerify = await WorldVerify.deploy(WorldIdAddress, 234);
+    worldVerify = await WorldVerify.deploy(WorldIdAddress, "WORLDID_APP_ID", "WORLDID_ACTION_ID" );
+
   });
 
   describe("Register Account", async () => {
@@ -76,6 +77,32 @@ describe("WorldVerify", async () => {
           [8, 6, 5, 4, 3, 2, 1, 0]
         )
       ).to.be.revertedWithCustomError(worldVerify, "InvalidNullifier");
+
+    });
+
+    it("revert when the root doesn't exists", async function () {
+
+      await expect(
+        worldVerify.registerAccount(
+          WorldIdAddress,
+          7,
+          6,
+          [8, 6, 5, 4, 3, 2, 1, 0]
+        )
+      ).to.be.revertedWithCustomError(WorldIdMock, "NonExistentRoot");
+
+    });
+
+    it("revert when root is expired", async function () {
+
+      await expect(
+        worldVerify.registerAccount(
+          WorldIdAddress,
+          77,
+          6,
+          [8, 6, 5, 4, 3, 2, 1, 0]
+        )
+      ).to.be.revertedWithCustomError(WorldIdMock, "ExpiredRoot");
 
     });
 

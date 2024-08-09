@@ -14,7 +14,10 @@ contract WorldIdMock is IWorldID {
         uint256 externalNullifierHash,
         uint256[8] calldata proof
     ) external pure {
-        require( root != 7, "wrong root");
+
+        if(root == 7) revert NonExistentRoot();
+        if(root == 77) revert ExpiredRoot();
+
         require( groupId != 7, "Wrong groupId");
         require( signalHash != 7, "Wrong signalHash");
         require( nullifierHash != 7, "Wrong nullifierHash");
