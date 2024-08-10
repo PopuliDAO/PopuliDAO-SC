@@ -50,8 +50,9 @@ Identity Manager:  0xb2ead588f14e69266d1b87936b75325181377076
 
 ### Latest Optimism Sepolia deployments
 
-```
-MyToken     | 0x7CdE8E1515Ede699899a56AFd490bA4676c617C7 | (abi)[abis/MyToken.json]
-WorldIdMock | 0x3f57d674ca4f4f108Ebe2c7103F51C1f09A2673D | (abi)[abis/WorldIdMock.json]
-WorldVerify | 0xfADd092C2c895852f9A83A416eFD9de735106830 | (abi)[abis/WorldVerify.json]
-```
+| Network | Address | Abi |
+| --- | --- | --- |
+| optimism_sepolia | 0x7CdE8E1515Ede699899a56AFd490bA4676c617C7 | (MyToken)[abis/MyToken.json] |
+| optimism_sepolia | 0x3f57d674ca4f4f108Ebe2c7103F51C1f09A2673D | (WorldIdMock)[abis/WorldIdMock.json] |
+| optimism_sepolia | 0xfADd092C2c895852f9A83A416eFD9de735106830 | (WorldVerify)[abis/WorldVerify.json] |
+
