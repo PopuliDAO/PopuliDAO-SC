@@ -6,7 +6,10 @@
     "flatten": "npx hardhat flatten",
     "fork": "npx hardhat fork",
     "test": "npx hardhat test",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "check-sol": "npx solhint --disc contracts/**",
+    "check-js": "npx solhint -f table --disc contracts/**",
+    "check": "npm run check-sol && run check-sol"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",

@@ -4,9 +4,6 @@ pragma solidity ^0.8.20;
 import {ByteHasher} from "./libraries/ByteHasher.sol";
 import {IWorldID} from "./Interfaces/IWorldID.sol";
 
-
-
-
 contract WorldVerify {
     struct DAOParticipant {
         address walletaddress;
@@ -15,20 +12,20 @@ contract WorldVerify {
     using ByteHasher for bytes;
 
     /// @dev The contract's external nullifier hash
-    uint256 internal immutable externalNullifierHash;
+    uint256 internal immutable EXTERNAL_NULLIFIER_HASH;
 
     /// @dev The World ID group ID (always 1) which represents ORB Identified users only
-    uint256 internal immutable groupId = 1;
+    uint256 internal immutable GROUP_ID = 1;
 
     /// @dev The World ID instance that will be used for verifying proofs
-    IWorldID internal immutable worldId;
+    IWorldID internal immutable WORLD_ID;
 
     // This can be a mapping solution for WorldID wallet address verification
     // mapping(address => uint256) AddressToWorldID;
     // mapping(uint256 => address) WorldIDToAddress;
 
-    // My second solution create a WalletWhitelist with a boolean value that he has already minted tokens or not
-    mapping(address => bool) WalletWhitelist;
+    // My second solution create a walletWhitelist with a boolean value that he has already minted tokens or not
+    mapping(address => bool) public walletWhitelist;
 
     /// @dev Whether a nullifier hash has been used already. Used to guarantee an action is only performed once by a single person
     mapping(uint256 => bool) internal nullifierHashes;
@@ -39,10 +36,13 @@ contract WorldVerify {
     ///                                  ERRORS                                ///
     //////////////////////////////////////////////////////////////////////////////
 
-    error WorldIDAlreadyUsed();
 
+    /// @notice Thrown when attempting to reuseaa worldid 
+    error WorldIDAlreadyUsed();
     /// @notice Thrown when attempting to reuse a nullifier
     error InvalidNullifier();
+    /// @notice Thrown when attempting to use a non whitelistedAddress
+    error NotWhitelistedAddress();
 
     /// @param _worldId The address of the WorldIDRouter that will verify the proofs
     /// @param _appId The World ID App ID (from Developer Portal)
@@ -52,9 +52,9 @@ contract WorldVerify {
         string memory _appId,
         string memory _action
     ) {
-        worldId = IWorldID(_worldId);
-        // externalNullifierHash = _externalNullifier;
-        externalNullifierHash = abi.encodePacked(
+        WORLD_ID = IWorldID(_worldId);
+        // EXTERNAL_NULLIFIER_HASH = _externalNullifier;
+        EXTERNAL_NULLIFIER_HASH = abi.encodePacked(
             abi.encodePacked(_appId).hashToField(), _action
         ).hashToField();
 
@@ -72,17 +72,16 @@ contract WorldVerify {
         uint256 nullifierHash,
         uint256[8] calldata proof
     ) public {
-        // First, we make sure this person hasn't done this before
+
         if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
+        if (walletWhitelist[signal] == true) revert WorldIDAlreadyUsed();
 
-        require(WalletWhitelist[signal] == false, "WorldID already registered");
-
-        worldId.verifyProof(
+        WORLD_ID.verifyProof(
             root,
-            groupId,
+            GROUP_ID,
             abi.encodePacked(signal).hashToField(),
             nullifierHash,
-            externalNullifierHash,
+            EXTERNAL_NULLIFIER_HASH,
             proof
         );
 
@@ -91,7 +90,7 @@ contract WorldVerify {
 
         // Finally, execute your logic here, for example issue a token, NFT, etc...
         // Make sure to emit some kind of event afterwards!
-        WalletWhitelist[signal] = true;
+        walletWhitelist[signal] = true;
 
         emit DAOParticipantRegistered(signal);
         // Optional: emit DAOParticipantRegistered(signal);
@@ -99,7 +98,7 @@ contract WorldVerify {
 
     // Function to create Voting proposal
     function createProposal(address walletaddress) public {
-        require(WalletWhitelist[walletaddress], "Wallet is not whitelisted");
-        // Create a proposal
+        // require(WalletWhitelist[walletaddress], "Wallet is not whitelisted");
+        if (!walletWhitelist[walletaddress]) revert NotWhitelistedAddress();
     }
 }
