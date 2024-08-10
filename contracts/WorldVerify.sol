@@ -4,7 +4,8 @@ pragma solidity ^0.8.20;
 import {ByteHasher} from "./libraries/ByteHasher.sol";
 import {IWorldID} from "./Interfaces/IWorldID.sol";
 
-import "hardhat/console.sol";
+
+
 
 contract WorldVerify {
     struct DAOParticipant {

@@ -12,6 +12,7 @@ import "hardhat-contract-sizer"
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
 import "hardhat-watcher";
+import "hardhat-abi-exporter";
 
 require("dotenv").config();
 
@@ -70,6 +71,17 @@ const config: HardhatUserConfig = {
       runOnLaunch: true
     },
   },
+  abiExporter: {
+    path: 'abis',
+    runOnCompile: true,
+    clear: true,
+    flat: true,
+    only: ['MyGovernor', 'MyToken', 'TimeLockMock', 'WorldIdMock', 'WorldVerify' ],
+    spacing: 2,
+    pretty: false,
+    // format: "minimal"
+  },
+
   etherscan: {
     apiKey: `${process.env.ETHERSCAN_API_KEY}`,
     customChains: [
