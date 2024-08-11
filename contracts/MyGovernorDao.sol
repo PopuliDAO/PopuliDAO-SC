@@ -74,7 +74,6 @@ contract MyGovernorDao is Ownable {
 
     /**
      * @notice Function to get the details of all proposals.
-     * @return ids An array of the proposals ids.
      * @return proposers An array of addresses of the proposers.
      * @return names An array of proposal names.
      * @return descriptions An array of proposal descriptions.
@@ -83,7 +82,6 @@ contract MyGovernorDao is Ownable {
      * @return executedStatuses An array of booleans indicating if each proposal has been executed.
      */
     function listProposals() external view returns (
-        uint256[] memory ids,
         address[] memory proposers,
         string[] memory names,
         string[] memory descriptions,
@@ -93,7 +91,6 @@ contract MyGovernorDao is Ownable {
     ) {
         uint256 count = proposalCount;
 
-        ids = new uint256[](count);
         proposers = new address[](count);
         names = new string[](count);
         descriptions = new string[](count);
@@ -103,7 +100,6 @@ contract MyGovernorDao is Ownable {
 
         for (uint256 i = 1; i <= count; i++) {
             Proposal storage proposal = proposals[i];
-            ids[i - 1] = i;
             proposers[i - 1] = proposal.proposer;
             names[i - 1] = proposal.description;
             descriptions[i - 1] = proposal.description;

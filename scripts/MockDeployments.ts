@@ -124,7 +124,10 @@ async function main() {
     });
 
     console.log("Verifying WorldVerify");
-    await hre.run("verify:verify", { address: myGovernorDaoFactory.target });
+    await hre.run("verify:verify", {
+      address: myGovernorDaoFactory.target,
+      constructorArguments: [worldVerify.target],
+    });
   } else {
     console.log("Network is not Optimism Sepolia. Skipping verification");
   }

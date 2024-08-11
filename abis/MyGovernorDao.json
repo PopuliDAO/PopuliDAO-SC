@@ -149,11 +149,6 @@
     "name": "listProposals",
     "outputs": [
       {
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
         "internalType": "address[]",
         "name": "proposers",
         "type": "address[]"

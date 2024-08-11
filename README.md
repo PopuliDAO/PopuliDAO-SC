@@ -19,11 +19,11 @@ https://developer.worldcoin.org/login
 
 | Network          | Address                                    | Abi                                                                 |
 | ---------------- | ------------------------------------------ | ------------------------------------------------------------------- |
-| optimism_sepolia | 0x0aD19F7b41563E47b0299D71e5C18e55eB9E42d5 | <a href="./abis/MyToken.json">MyToken</a>                           |
-| optimism_sepolia | 0x98F1Af000ca226cf7720c4d041049c892C701587 | <a href="./abis/MyGovernorDao.json">MyGovernorDao</a>               |
-| optimism_sepolia | 0x8F8e01cdFc4959877dA7c201d4a2b0Dab471EdAB | <a href="./abis/WorldIdMock.json">WorldIdMock</a>                   |
-| optimism_sepolia | 0x645287f11bc269C60900E407377f9e9E15FBe12C | <a href="./abis/WorldVerify.json">WorldVerify</a>                   |
-| optimism_sepolia | 0xC7656378b3bF5CAdEedB38538E17f2FFBa02F213 | <a href="./abis/MyGovernorDaoFactory.json">MyGovernorDaoFactory</a> |
+| optimism_sepolia | 0x1bE9984ae32d94b6eBcD2E36A412554581c98f50 | <a href="./abis/MyToken.json">MyToken</a>                           |
+| optimism_sepolia | 0xf6b651E885C3E68dB3417f14bdbe44a6919CC08C | <a href="./abis/MyGovernorDao.json">MyGovernorDao</a>               |
+| optimism_sepolia | 0x276cAe027a159A987c8947b7330dAcd05a20a61d | <a href="./abis/WorldIdMock.json">WorldIdMock</a>                   |
+| optimism_sepolia | 0x352A90fA8A50Fd06e1Ea2483Ae975d05A5864a62 | <a href="./abis/WorldVerify.json">WorldVerify</a>                   |
+| optimism_sepolia | 0x273fB65684678a7a71bFbc2F168ee871a87ACD2A | <a href="./abis/MyGovernorDaoFactory.json">MyGovernorDaoFactory</a> |
 
 #### Commands
 
