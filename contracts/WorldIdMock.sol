@@ -3,7 +3,7 @@ pragma solidity ^0.8.10;
 
 import { IWorldID } from "./Interfaces/IWorldID.sol";
 
-contract WorldMock is IWorldID {
+contract WorldIdMock is IWorldID {
 
     /// @notice Reversts if any argument is equal to 7
     function verifyProof(
@@ -14,7 +14,10 @@ contract WorldMock is IWorldID {
         uint256 externalNullifierHash,
         uint256[8] calldata proof
     ) external pure {
-        require( root != 7, "wrong root");
+
+        if(root == 7) revert NonExistentRoot();
+        if(root == 77) revert ExpiredRoot();
+
         require( groupId != 7, "Wrong groupId");
         require( signalHash != 7, "Wrong signalHash");
         require( nullifierHash != 7, "Wrong nullifierHash");

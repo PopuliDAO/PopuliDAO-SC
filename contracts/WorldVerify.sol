@@ -1,43 +1,67 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import { IWorldID } from "./Interfaces/IWorldID.sol";
-
-import "hardhat/console.sol";
+import {ByteHasher} from "./libraries/ByteHasher.sol";
+import {IWorldID} from "./Interfaces/IWorldID.sol";
+import {IMyGovernorDao} from "./Interfaces/IMyGovernorDao.sol";
 
 contract WorldVerify {
-
-    /// @dev The contract's external nullifier hash
-    uint256 internal immutable externalNullifier;
-
-    /// @dev The World ID group ID (always 1)
-    uint256 internal immutable groupId = 1;
-
-    /// @dev The World ID instance that will be used for verifying proofs
-    IWorldID internal immutable worldId;
-
     struct DAOParticipant {
-        address WalletAddress;
+        address walletaddress;
     }
 
-    mapping(address => uint256) AddressToWorldID;
-    mapping(uint256 => address) WorldIDToAddress;
+    using ByteHasher for bytes;
+
+    /// @dev The contract's external nullifier hash
+    uint256 internal immutable EXTERNAL_NULLIFIER_HASH;
+
+    /// @dev The World ID group ID (always 1) which represents ORB Identified users only
+    uint256 internal immutable GROUP_ID = 1;
+
+    /// @dev The World ID instance that will be used for verifying proofs
+    IWorldID internal immutable WORLD_ID;
+
+    IMyGovernorDao public MY_GOVERNOR_DAO;
+
+    // This can be a mapping solution for WorldID wallet address verification
+    // mapping(address => uint256) AddressToWorldID;
+    // mapping(uint256 => address) WorldIDToAddress;
+
+    // My second solution create a walletWhitelist with a boolean value that he has already minted tokens or not
+    mapping(address => bool) public walletWhitelist;
+
     /// @dev Whether a nullifier hash has been used already. Used to guarantee an action is only performed once by a single person
     mapping(uint256 => bool) internal nullifierHashes;
 
-    event DAOParticipantRegistered(address indexed WalletAddress);
+    event DAOParticipantRegistered(address indexed walletaddress);
 
     ////////////////////////////////////////////////////////////////////////////////
     ///                                  ERRORS                                ///
     //////////////////////////////////////////////////////////////////////////////
 
+    /// @notice Thrown when attempting to reuseaa worldid 
     error WorldIDAlreadyUsed();
-
     /// @notice Thrown when attempting to reuse a nullifier
     error InvalidNullifier();
+    /// @notice Thrown when attempting to use a non whitelistedAddress
+    error NotWhitelistedAddress();
 
-    constructor(address _worldId) {
-        worldId = IWorldID(_worldId);
+    /// @param _worldId The address of the WorldIDRouter that will verify the proofs
+    /// @param _myGovernorDao The address of the MyGovernorDao
+    /// @param _appId The World ID App ID (from Developer Portal)
+    /// @param _action The World ID Action (from Developer Portal)
+    constructor(
+        IWorldID _worldId,
+        address _myGovernorDao,
+        string memory _appId,
+        string memory _action
+    ) {
+        WORLD_ID = IWorldID(_worldId);
+        MY_GOVERNOR_DAO = IMyGovernorDao(_myGovernorDao);
+
+        EXTERNAL_NULLIFIER_HASH = abi.encodePacked(
+            abi.encodePacked(_appId).hashToField(), _action
+        ).hashToField();
     }
 
     /// @dev Registers a new account
@@ -51,40 +75,37 @@ contract WorldVerify {
         uint256 nullifierHash,
         uint256[8] calldata proof
     ) public {
-        // First, we make sure this person hasn't done this before
+
         if (nullifierHashes[nullifierHash]) revert InvalidNullifier();
+        if (walletWhitelist[signal] == true) revert WorldIDAlreadyUsed();
 
-        uint256 _worldId = AddressToWorldID[signal];
-        address _registerdAddress = WorldIDToAddress[_worldId];
-
-        console.log("_woldId", _worldId);
-        console.log("_registerdAddress", _registerdAddress);
-
-        require( _registerdAddress == address(0), "WorldID already registered");
-
-        // We now verify the provided proof is valid and the user is verified by World ID
-        // NOTE: encodePackad is wrong
-        // worldId.verifyProof(
-        //     root,
-        //     groupId,
-        //     abi.encodePacked(signal).hashToField(),
-        //     nullifierHash,
-        //     externalNullifier,
-        //     proof
-        // );
+        WORLD_ID.verifyProof(
+            root,
+            GROUP_ID,
+            abi.encodePacked(signal).hashToField(),
+            nullifierHash,
+            EXTERNAL_NULLIFIER_HASH,
+            proof
+        );
 
         // We now record the user has done this, so they can't do it again (proof of uniqueness)
         nullifierHashes[nullifierHash] = true;
 
-        // TODO: is wrong and does nothign
-        //WorldIDToAddress[signal] != 0;
-        // TODO: Get the new address World Id
-        //WorldIDToAddress[NEW_ADDRESS_WORLD_ID] = signal;
-
-        emit DAOParticipantRegistered(signal);
-
         // Finally, execute your logic here, for example issue a token, NFT, etc...
         // Make sure to emit some kind of event afterwards!
+        walletWhitelist[signal] = true;
+
+        emit DAOParticipantRegistered(signal);
+        // Optional: emit DAOParticipantRegistered(signal);
     }
 
+    // Function to create Voting proposal
+    /// @param proposalId Id of the proposal to vote for
+    function vote(uint256 proposalId) public {
+
+        if (!walletWhitelist[msg.sender]) revert NotWhitelistedAddress();
+
+        MY_GOVERNOR_DAO.vote(msg.sender, proposalId);
+
+    }
 }

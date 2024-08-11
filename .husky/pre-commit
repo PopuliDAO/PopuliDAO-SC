@@ -1,0 +1,13 @@
+#! /usr/bin/env bash
+
+SOLHINT_CHANGED_FILELIST=$(git diff --cached --name-only --diff-filter=ACMR contracts/ | sed 's| |\\ |g')
+
+if [ ! -z "$SOLHINT_CHANGED_FILELIST" ]; then
+	npx solhint -f table --disc $CHANGE_FILELIST
+fi
+
+CHANGE_FILELIST=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+if [ ! -z "$CHANGE_FILELIST" ]; then
+	# npx prettier $CHANGE_FILELIST --write --ignore-unknown
+	npx prettier $CHANGE_FILELIST --check --ignore-unknown
+fi

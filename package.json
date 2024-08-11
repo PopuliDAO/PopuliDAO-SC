@@ -1,22 +1,35 @@
 {
-  "name": "hardhat-project",
+  "name": "PopuliDAO",
   "scripts": {
     "compile": "npx hardhat compile",
     "deploy": "npx hardhat deploy",
     "flatten": "npx hardhat flatten",
     "fork": "npx hardhat fork",
     "test": "npx hardhat test",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "lintcheck-js": "npx prettier --check --ignore-unknown",
+    "lintfix-js": "npx prettier --write --ignore-unknown",
+    "lintcheck-sol": "npx solhint --disc contracts/**",
+    "lintfix-sol": "npx solhint --disc --fix contracts/**",
+    "lintcheck": "npm run check-sol && npm run check-js",
+    "lintfix": "npm run lintfix-sol && npm run lintfix-js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "hardhat": "^2.22.7"
-  },
-  "devDependencies": {
+    "@nomiclabs/hardhat-solhint": "^4.0.0",
+    "dotenv": "^16.4.5",
+    "hardhat-abi-exporter": "^2.10.1",
+    "hardhat-contract-sizer": "^2.10.0",
+    "hardhat-deploy": "^0.12.4",
+    "hardhat-deploy-ethers": "^0.4.2",
     "husky": "~8.0.3",
-    "lint-staged": "~13.2.2"
+    "lint-staged": "~13.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.2"
+    "@openzeppelin/contracts": "^5.0.2",
+    "hardhat": "^2.22.8",
+    "hardhat-watcher": "^2.5.0"
   }
 }
