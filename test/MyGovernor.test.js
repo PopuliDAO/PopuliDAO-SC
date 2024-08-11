@@ -97,7 +97,7 @@ describe("MyGovernor", async () => {
     });
   });
 
-  describe.only("Voting on proposals", async () => {
+  describe("Voting on proposals", async () => {
     let proposal1;
     let proposals;
 

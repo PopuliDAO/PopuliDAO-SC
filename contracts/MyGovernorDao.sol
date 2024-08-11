@@ -101,7 +101,7 @@ contract MyGovernorDao is Ownable {
         for (uint256 i = 1; i <= count; i++) {
             Proposal storage proposal = proposals[i];
             proposers[i - 1] = proposal.proposer;
-            names[i - 1] = proposal.description;
+            names[i - 1] = proposal.name;
             descriptions[i - 1] = proposal.description;
             voteCounts[i - 1] = proposal.voteCount;
             endTimes[i - 1] = proposal.endTime;
