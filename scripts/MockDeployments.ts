@@ -27,6 +27,7 @@ async function main() {
   console.log("WORLDID_ACTION_ID", process.env.WORLDID_ACTION_ID);
 
   console.log("Deploying contracts on ", NETWOWRK_NAME);
+
   // Deploy MyToken contract
   const MyToken = await ethers.getContractFactory("MyToken");
   const myToken = await MyToken.deploy(MY_TOKEN_INITIAL_SUPPLY);
@@ -37,7 +38,7 @@ async function main() {
   const MyGovernorDao = await ethers.getContractFactory("MyGovernorDao");
   const myGovernorDao = await MyGovernorDao.deploy(DAO_QUORUM, VOTING_PERIOD);
   await myGovernorDao.waitForDeployment();
-  console.log("myGovernorDao deployed to:", myGovernorDao.target);
+  console.log("MyGovernorDao deployed to:", myGovernorDao.target);
 
   // Deploy WorldIdMock contract
   const WorldIdMock = await ethers.getContractFactory("WorldIdMock");
@@ -72,6 +73,7 @@ async function main() {
 
   console.log("\n", "WorldIdMock");
   console.log(VERIFYING_COMMAND, ` ${worldIdMock.target}`);
+
   console.log("\n", "WorldVerify");
   console.log(
     VERIFYING_COMMAND,
@@ -84,6 +86,12 @@ async function main() {
     await hre.run("verify:verify", {
       address: myToken.target,
       constructorArguments: [MY_TOKEN_INITIAL_SUPPLY],
+    });
+
+    console.log("Verifying MyGovernorDao");
+    await hre.run("verify:verify", {
+      address: myGovernorDao.target,
+      constructorArguments: [DAO_QUORUM, VOTING_PERIOD],
     });
 
     console.log("Verifying WorldIdMock");
@@ -100,6 +108,27 @@ async function main() {
   } else {
     console.log("Network is not Optimism Sepolia. Skipping verification");
   }
+
+  await myGovernorDao.setWorldVerify(worldVerify.target);
+
+  await myGovernorDao.createProposal(
+    "First Proposal",
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+  );
+
+  await myGovernorDao.createProposal(
+    "Second Proposal",
+    "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+  );
+
+  await myGovernorDao.createProposal(
+    "Third Proposal",
+    " It has survived not only five centuries, but also the leap ..."
+  );
+
+  let x = await myGovernorDao.listProposals();
+
+  console.log(x);
 }
 
 main().catch((error) => {

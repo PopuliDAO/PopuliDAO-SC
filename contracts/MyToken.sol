@@ -9,7 +9,7 @@ import {Nonces} from "@openzeppelin/contracts/utils/Nonces.sol";
 contract MyToken is ERC20, ERC20Permit, ERC20Votes {
     constructor(
         uint256 initialSupply
-    ) ERC20("Populi", "POP") ERC20Permit("Populi") {
+    ) ERC20("Populi", "PPL") ERC20Permit("Populi") {
         _mint(msg.sender, initialSupply);
     }
 

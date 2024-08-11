@@ -76,6 +76,11 @@
     "inputs": [
       {
         "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
         "name": "description",
         "type": "string"
       }
@@ -96,6 +101,44 @@
     "name": "executeProposal",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "listProposals",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "proposers",
+        "type": "address[]"
+      },
+      {
+        "internalType": "string[]",
+        "name": "names",
+        "type": "string[]"
+      },
+      {
+        "internalType": "string[]",
+        "name": "descriptions",
+        "type": "string[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "voteCounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "endTimes",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "bool[]",
+        "name": "executedStatuses",
+        "type": "bool[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -138,6 +181,11 @@
         "internalType": "address",
         "name": "proposer",
         "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
       {
         "internalType": "string",
