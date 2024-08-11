@@ -17,11 +17,12 @@ https://developer.worldcoin.org/login
 
 ### Deployments
 
-| Network          | Address                                    | Abi                                               |
-| ---------------- | ------------------------------------------ | ------------------------------------------------- |
-| optimism_sepolia | 0x7CdE8E1515Ede699899a56AFd490bA4676c617C7 | <a href="./abis/MyToken.json">MyToken</a>         |
-| optimism_sepolia | 0x3f57d674ca4f4f108Ebe2c7103F51C1f09A2673D | <a href="./abis/WorldIdMock.json">WorldIdMock</a> |
-| optimism_sepolia | 0xfADd092C2c895852f9A83A416eFD9de735106830 | <a href="./abis/WorldVerify.json">WorldVerify</a> |
+| Network          | Address                                    | Abi                                                 |
+| ---------------- | ------------------------------------------ | --------------------------------------------------- |
+| optimism_sepolia | 0xd86A7b271D22B39bDA76158d7794Ef49Fd8BA695 | <a href="./abis/MyToken.json">MyToken</a>           |
+| optimism_sepolia | 0x5DC4409DB14F1Ae75341B4D89Ff0205f1a0d5D16 | <a href="./abis/MyGovernorDao.json">WorldIdMock</a> |
+| optimism_sepolia | 0xE02f4f7c020Ab6FD7464577e87A095bAFa6d2a42 | <a href="./abis/WorldIdMock.json">WorldIdMock</a>   |
+| optimism_sepolia | 0xC7656378b3bF5CAdEedB38538E17f2FFBa02F213 | <a href="./abis/WorldVerify.json">WorldVerify</a>   |
 
 #### Commands
 
