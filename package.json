@@ -12,7 +12,7 @@
     "lintcheck-sol": "npx solhint --disc contracts/**",
     "lintfix-sol": "npx solhint --disc --fix contracts/**",
     "lintcheck": "npm run check-sol && npm run check-js",
-    "lintfix": "npm run check-sol && npm run check-js"
+    "lintfix": "npm run lintfix-sol && npm run lintfix-js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",

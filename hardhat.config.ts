@@ -81,6 +81,7 @@ const config: HardhatUserConfig = {
     flat: true,
     only: [
       "MyGovernorDao",
+      "MyGovernorDaoFactory",
       "MyToken",
       "TimeLockMock",
       "WorldIdMock",

@@ -57,6 +57,16 @@ async function main() {
   await worldVerify.waitForDeployment();
   console.log("WorldVerify deployed to:", worldVerify.target);
 
+  // Deploy MyGovernorDaoFactory contract
+  const MyGovernorDaoFactory = await ethers.getContractFactory(
+    "MyGovernorDaoFactory"
+  );
+  const myGovernorDaoFactory = await MyGovernorDaoFactory.deploy(
+    worldVerify.target
+  );
+  await myGovernorDaoFactory.waitForDeployment();
+  console.log("MyGovernorDaoFactory deployed to:", myGovernorDaoFactory.target);
+
   console.log("\n", "----------------------------------");
   console.log("Verification commands:");
   console.log("\n", "My Token");
@@ -77,8 +87,15 @@ async function main() {
   console.log("\n", "WorldVerify");
   console.log(
     VERIFYING_COMMAND,
-    ` ${worldVerify.target} ${ADDRESS_OP_SEPO_WORLD_ID_ROUTER} ${WORLDID_APP_ID} ${WORLDID_ACTION_ID}`
+    ` ${worldVerify.target} ${ADDRESS_OP_SEPO_WORLD_ID_ROUTER} ${myGovernorDao.target} ${WORLDID_APP_ID} ${WORLDID_ACTION_ID}`
   );
+
+  console.log("\n", "MyGovernorDaoFactory");
+  console.log(
+    VERIFYING_COMMAND,
+    ` ${myGovernorDaoFactory.target} ${worldVerify.target} `
+  );
+
   console.log("----------------------------------", "\n");
 
   if (ethers.provider._networkName == "optimism_sepolia") {
@@ -105,6 +122,9 @@ async function main() {
         WORLD_VERIFY_EXTERNAL_NULLVERIFIER,
       ],
     });
+
+    console.log("Verifying WorldVerify");
+    await hre.run("verify:verify", { address: myGovernorDaoFactory.target });
   } else {
     console.log("Network is not Optimism Sepolia. Skipping verification");
   }
