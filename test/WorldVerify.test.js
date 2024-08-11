@@ -22,9 +22,14 @@ describe("WorldVerify", async () => {
 
     WorldIdAddress = worldIdMock.target;
 
+    MyGovernorDao = await ethers.getContractFactory("MyGovernorDao");
+    myGovernorDao = await MyGovernorDao.deploy(2, 800);
+
     WorldVerify = await ethers.getContractFactory("WorldVerify");
+
     worldVerify = await WorldVerify.deploy(
       WorldIdAddress,
+      myGovernorDao.target,
       "WORLDID_APP_ID",
       "WORLDID_ACTION_ID"
     );

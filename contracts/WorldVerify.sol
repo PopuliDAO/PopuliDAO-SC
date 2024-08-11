@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 import {ByteHasher} from "./libraries/ByteHasher.sol";
 import {IWorldID} from "./Interfaces/IWorldID.sol";
+import {IMyGovernorDao} from "./Interfaces/IMyGovernorDao.sol";
 
 contract WorldVerify {
     struct DAOParticipant {
@@ -20,6 +21,8 @@ contract WorldVerify {
     /// @dev The World ID instance that will be used for verifying proofs
     IWorldID internal immutable WORLD_ID;
 
+    IMyGovernorDao public MY_GOVERNOR_DAO;
+
     // This can be a mapping solution for WorldID wallet address verification
     // mapping(address => uint256) AddressToWorldID;
     // mapping(uint256 => address) WorldIDToAddress;
@@ -36,7 +39,6 @@ contract WorldVerify {
     ///                                  ERRORS                                ///
     //////////////////////////////////////////////////////////////////////////////
 
-
     /// @notice Thrown when attempting to reuseaa worldid 
     error WorldIDAlreadyUsed();
     /// @notice Thrown when attempting to reuse a nullifier
@@ -45,20 +47,21 @@ contract WorldVerify {
     error NotWhitelistedAddress();
 
     /// @param _worldId The address of the WorldIDRouter that will verify the proofs
+    /// @param _myGovernorDao The address of the MyGovernorDao
     /// @param _appId The World ID App ID (from Developer Portal)
     /// @param _action The World ID Action (from Developer Portal)
     constructor(
         IWorldID _worldId,
+        address _myGovernorDao,
         string memory _appId,
         string memory _action
     ) {
         WORLD_ID = IWorldID(_worldId);
-        // EXTERNAL_NULLIFIER_HASH = _externalNullifier;
+        MY_GOVERNOR_DAO = IMyGovernorDao(_myGovernorDao);
+
         EXTERNAL_NULLIFIER_HASH = abi.encodePacked(
             abi.encodePacked(_appId).hashToField(), _action
         ).hashToField();
-
-
     }
 
     /// @dev Registers a new account
@@ -97,8 +100,12 @@ contract WorldVerify {
     }
 
     // Function to create Voting proposal
-    function createProposal(address walletaddress) public {
-        // require(WalletWhitelist[walletaddress], "Wallet is not whitelisted");
-        if (!walletWhitelist[walletaddress]) revert NotWhitelistedAddress();
+    /// @param proposalId Id of the proposal to vote for
+    function vote(uint256 proposalId) public {
+
+        if (!walletWhitelist[msg.sender]) revert NotWhitelistedAddress();
+
+        MY_GOVERNOR_DAO.vote(msg.sender, proposalId);
+
     }
 }

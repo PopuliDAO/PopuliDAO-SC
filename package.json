@@ -7,9 +7,12 @@
     "fork": "npx hardhat fork",
     "test": "npx hardhat test",
     "postinstall": "husky install",
-    "check-sol": "npx solhint --disc contracts/**",
-    "check-js": "npx solhint -f table --disc contracts/**",
-    "check": "npm run check-sol && run check-sol"
+    "lintcheck-js": "npx prettier --check --ignore-unknown",
+    "lintfix-js": "npx prettier --write --ignore-unknown",
+    "lintcheck-sol": "npx solhint --disc contracts/**",
+    "lintfix-sol": "npx solhint --disc --fix contracts/**",
+    "lintcheck": "npm run check-sol && npm run check-js",
+    "lintfix": "npm run check-sol && npm run check-js"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",

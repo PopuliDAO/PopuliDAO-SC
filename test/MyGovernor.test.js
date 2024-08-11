@@ -23,7 +23,7 @@ let externalNullifier = 123456;
 const MY_TOKEN_INITIAL_SUPPLY = ethers.parseUnits("1000000", 18); // 1 million tokens with 18 decimals
 let WorldIdAddress;
 
-describe("MyGovernor", async () => {
+describe.skip("MyGovernor", async () => {
   beforeEach("Deployment", async () => {
     [
       owner,

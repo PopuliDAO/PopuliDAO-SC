@@ -8,7 +8,7 @@ import "@nomicfoundation/hardhat-ethers";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-verify";
 import "@nomiclabs/hardhat-solhint";
-import "hardhat-contract-sizer"
+import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
 import "hardhat-watcher";
@@ -34,10 +34,10 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
-      allowUnlimitedContractSize: true,
+      // allowUnlimitedContractSize: true,
       forking: {
         url: `https://opt-sepolia.g.alchemy.com/v2/${process.env.alchemyApiKey}`,
-      }
+      },
     },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.alchemyApiKey}`,
@@ -63,20 +63,29 @@ const config: HardhatUserConfig = {
     //   verbose: true,
     // },
     buildtest: {
-      tasks: ["compile", { command: "test", params: { parallel: false, bail: false } }],
+      tasks: [
+        "compile",
+        { command: "test", params: { parallel: false, bail: false } },
+      ],
       files: ["./test/**/*", "./contracts/**/*"],
       verbose: true,
-      clearOnStart: true, 
+      clearOnStart: true,
       // start: string; // Run any desirable command each time before the task runs
-      runOnLaunch: true
+      runOnLaunch: true,
     },
   },
   abiExporter: {
-    path: 'abis',
+    path: "abis",
     runOnCompile: true,
     clear: true,
     flat: true,
-    only: ['MyGovernor', 'MyToken', 'TimeLockMock', 'WorldIdMock', 'WorldVerify' ],
+    only: [
+      "MyGovernorDao",
+      "MyToken",
+      "TimeLockMock",
+      "WorldIdMock",
+      "WorldVerify",
+    ],
     spacing: 2,
     pretty: false,
     // format: "minimal"
@@ -90,10 +99,10 @@ const config: HardhatUserConfig = {
         chainId: 11155420,
         urls: {
           apiURL: "https://api-sepolia-optimistic.etherscan.io/api",
-          browserURL: "https://sepolia-optimism.etherscan.io/"
-        }
-      }
-    ]
+          browserURL: "https://sepolia-optimism.etherscan.io/",
+        },
+      },
+    ],
   },
   verify: {
     etherscan: {
@@ -101,8 +110,8 @@ const config: HardhatUserConfig = {
     },
   },
   sourcify: {
-    enabled: true
-  }
+    enabled: true,
+  },
 };
 
 export default config;
