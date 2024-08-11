@@ -17,13 +17,13 @@ https://developer.worldcoin.org/login
 
 ### Deployments
 
-| Network          | Address                                    | Abi                                                                 |
-| ---------------- | ------------------------------------------ | ------------------------------------------------------------------- |
-| optimism_sepolia | 0x4d12143B1fE21e353eB95b528D051e51c07Aee23 | <a href="./abis/MyToken.json">MyToken</a>                           |
-| optimism_sepolia | 0x7B5e2b49a63e1c9780E70241061Bcb5223f2C831 | <a href="./abis/MyGovernorDao.json">MyGovernorDao</a>               |
-| optimism_sepolia | 0x170180963693BFAC5E9265045f5862557E4d71f4 | <a href="./abis/WorldIdMock.json">WorldIdMock</a>                   |
-| optimism_sepolia | 0x8f312ABa012fEe5948dbc7d7F7612462c9Ba95d2 | <a href="./abis/WorldVerify.json">WorldVerify</a>                   |
-| optimism_sepolia | 0x85C5b0bDeBaB547C0D11e5bD7bFECE49DCcc874d | <a href="./abis/MyGovernorDaoFactory.json">MyGovernorDaoFactory</a> |
+| Network          | Address                                    | Abi - Etherscan                                                                                                                                                                                 |
+| ---------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| optimism_sepolia | 0x4d12143B1fE21e353eB95b528D051e51c07Aee23 | MyToken <a href="./abis/MyToken.json">abi</a> - <a href="https://sepolia-optimism.etherscan.io/address/0x4d12143B1fE21e353eB95b528D051e51c07Aee23#code">etherscan</a>                           |
+| optimism_sepolia | 0x7B5e2b49a63e1c9780E70241061Bcb5223f2C831 | MyGovernorDao <a href="./abis/MyGovernorDao.json">abi</a> - <a href="https://sepolia-optimism.etherscan.io/address/0x7B5e2b49a63e1c9780E70241061Bcb5223f2C831#code">etherscan</a>               |
+| optimism_sepolia | 0x170180963693BFAC5E9265045f5862557E4d71f4 | WorldIdMock <a href="./abis/WorldIdMock.json">abi</a> - <a href="https://sepolia-optimism.etherscan.io/address/0x170180963693BFAC5E9265045f5862557E4d71f4#code">etherscan</a>                   |
+| optimism_sepolia | 0x8f312ABa012fEe5948dbc7d7F7612462c9Ba95d2 | WorldVerify <a href="./abis/WorldVerify.json">abi</a> - <a href="https://sepolia-optimism.etherscan.io/address/0x8f312ABa012fEe5948dbc7d7F7612462c9Ba95d2#code">etherscan</a>                   |
+| optimism_sepolia | 0x85C5b0bDeBaB547C0D11e5bD7bFECE49DCcc874d | MyGovernorDaoFactory <a href="./abis/MyGovernorDaoFactory.json">abi</a> - <a href="https://sepolia-optimism.etherscan.io/address/0x85C5b0bDeBaB547C0D11e5bD7bFECE49DCcc874d#code">etherscan</a> |
 
 #### Commands
 
